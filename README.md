@@ -1,2 +1,2 @@
 # MagicTrick
-Some magic tricks in coding
+General code tips in daily practice.
