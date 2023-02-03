@@ -1,2 +1,2 @@
 # MagicTrick
-General code tips in daily practice.
+General code siklls in daily practice.
