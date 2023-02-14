@@ -10,6 +10,7 @@
  * clear()        reset Heap
  * top()          catch top of Heap
  * empty()        juege if Heap is empty
+ * size()         get size of Heap
  * -------------------------------------------------
  */
 #define HEAP_SIZE 20000
@@ -60,14 +61,14 @@ class Heap {
         arr[parent]->idx_heap = pidx;
         arr[child]->idx_heap = cidx;
     }
-    bool compare(int parent, int child) {
+    bool compare(int parent, int child) const {
         return arr[parent]->priority > arr[child]->priority;
     }
 
    public:
     void push(Node* val) {
+        val->idx_heap = sz;
         arr[sz] = val;
-        arr[sz]->idx_heap = sz;
         heapifyUp(sz);
         ++sz;
     }
@@ -76,8 +77,7 @@ class Heap {
         --sz;
         heapifyDown(0);
     }
-    void modify(int pos, Node* val) {
-        arr[pos] = val;
+    void modify(int pos) {
         heapifyUp(pos);
         heapifyDown(pos);
     }
@@ -91,4 +91,5 @@ class Heap {
 
     Node* top() const { return arr[0]; }
     bool empty() const { return sz == 0; }
+    bool size() const { return sz; }
 };
