@@ -73,8 +73,8 @@ class Heap {
     }
     void pop() {
         exchange(0, sz - 1);
-        heapifyDown(0);
         --sz;
+        heapifyDown(0);
     }
     void modify(int pos, Node* val) {
         arr[pos] = val;
@@ -83,9 +83,9 @@ class Heap {
     }
     void erase(int pos) {
         exchange(pos, sz - 1);
+        --sz;
         heapifyUp(pos);
         heapifyDown(pos);
-        --sz;
     }
     void clear() { sz = 0; }
 
