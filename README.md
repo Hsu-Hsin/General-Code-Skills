@@ -1,2 +1,3 @@
 # MagicTrick
-General code siklls in daily practice.
+
+General programming skills in daily practice.
