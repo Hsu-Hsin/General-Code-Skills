@@ -13,27 +13,31 @@
  * size()         get size of Heap
  * -------------------------------------------------
  */
+#include <ctime>
+#include <iostream>
 #define HEAP_SIZE 20000
-
+ 
 struct Node {
     int priority = 0;
     int idx_heap = 0;
     /* another way is use hash_map to map node_idx to heap_array_idx */
 };
-
+ 
 class Heap {
    private:
     Node* arr[HEAP_SIZE] = {nullptr};
     int sz = 0;
-
+ 
     void heapifyUp(int pos) {
-        while (pos > 0 && compare((pos - 1) >> 1, pos)) {
+         // CLRS-4e-p176
+         while (pos > 0 && compare((pos - 1) >> 1, pos)) {
             exchange((pos - 1) >> 1, pos);
             pos = (pos - 1) >> 1;
         }
     }
     void heapifyDown(int pos) {
-        while (pos < sz) {
+         // CLRS-4e-p165
+         while (pos < sz) {
             int Lc = (pos << 1) + 1, Rc = (pos << 1) + 2;
             int idx = pos;
             if (Lc < sz && compare(idx, Lc)) {
@@ -54,17 +58,17 @@ class Heap {
         // exchange content but keep idx
         Node* tmp = arr[parent];
         int pidx = arr[parent]->idx_heap, cidx = arr[child]->idx_heap;
-
+ 
         arr[parent] = arr[child];
         arr[child] = tmp;
-
+ 
         arr[parent]->idx_heap = pidx;
         arr[child]->idx_heap = cidx;
     }
     bool compare(int parent, int child) const {
         return arr[parent]->priority > arr[child]->priority;
     }
-
+ 
    public:
     void push(Node* val) {
         val->idx_heap = sz;
@@ -88,7 +92,18 @@ class Heap {
         heapifyDown(pos);
     }
     void clear() { sz = 0; }
-
+ 
+    bool isHeap() const {
+        bool ret = true;
+        for (int idx = 0; idx < sz; ++idx) {
+            if (((idx << 1) + 1 < sz && compare(idx, (idx << 1) + 1)) ||
+                ((idx << 1) + 2 < sz && compare(idx, (idx << 1) + 2))) {
+                return false;
+            }
+        }
+        return true;
+    }
+ 
     Node* top() const { return arr[0]; }
     bool empty() const { return sz == 0; }
     bool size() const { return sz; }
