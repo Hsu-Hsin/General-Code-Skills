@@ -2,6 +2,8 @@
 #include <iostream>
 #include <vector>
 using namespace std;
+
+// https://en.wikipedia.org/wiki/Binary_search_algorithm
  
 void binary_search(vector<int>& arr, int target) {
     int L = 0, R = arr.size() - 1;
