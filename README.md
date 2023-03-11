@@ -4,5 +4,5 @@ General programming skills in daily practice.
 
 # Bit Operations
 
-
-$ x=x & (x−1) $，该运算将 $ x $ 的二进制表示的最后一个 $ 1 $ 变成 $ 0 $
+x = x & (x - 1)会将x的二进制表示形式的最右边的"1"变为0
+因此x & (x - 1) == 0就可以判断x是否是2的幂
