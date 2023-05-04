@@ -1,9 +1,16 @@
-#include <stdio.h>
+#include <bits/stdc++.h>
+using namespace std;
 
 typedef struct Row {
     int a;
     int b;
 } Row;
+
+struct cmp {
+    bool operator()(const Row* lhs, const Row* rhs) { return lhs->b > rhs->b; }
+};
+
+////////////////////////////////////////////////////////////////////////////////////////
 
 /*!
  * Task 1.
@@ -203,4 +210,29 @@ void task2_opt(const Row* rows, int nrows) {
  * @param nrows     The total number of rows.
  * @param rows      The rows, for example rows[0] is the first row.
  */
-void task3(const Row* rows, int nrows) {}
+void task3(const Row* rows, int nrows) {
+    priority_queue<const Row*, vector<const Row*>, cmp> heap;
+
+    for (int i = first_greater_than_key(rows, nrows, 5);
+         i <= last_less_than_key(rows, nrows, 10); ++i) {
+        for (int j = binary_search_leftmost_by_b(rows, nrows, 1000);
+             j <= binary_search_rightmost_by_b(rows, nrows, 1000); ++j) {
+            heap.push(&rows[j]);
+        }
+
+        for (int j = binary_search_leftmost_by_b(rows, nrows, 2000);
+             j <= binary_search_rightmost_by_b(rows, nrows, 2000); ++j) {
+            heap.push(&rows[j]);
+        }
+
+        for (int j = binary_search_leftmost_by_b(rows, nrows, 3000);
+             j <= binary_search_rightmost_by_b(rows, nrows, 3000); ++j) {
+            heap.push(&rows[j]);
+        }
+    }
+
+    while(!heap.empty()) {
+        printf("%d,%d\n", heap.top()->a, heap.top()->b);
+        heap.pop();
+    }
+}
