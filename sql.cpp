@@ -6,12 +6,6 @@ typedef struct Row {
     int b;
 } Row;
 
-struct cmp {
-    bool operator()(const Row* lhs, const Row* rhs) { return lhs->b > rhs->b; }
-};
-
-////////////////////////////////////////////////////////////////////////////////////////
-
 /*!
  * Task 1.
  *
@@ -88,6 +82,23 @@ int binary_search_rightmost_by_a(const Row* rows, int nrows, int key) {
     while (left < right) {
         int middle = left + (right - left) / 2;
         if (rows[middle].a > key) {
+            right = middle;
+        } else {
+            left = middle + 1;
+        }
+    }
+    return right - 1;
+}
+
+bool greater(const Row* lhs, const Row* rhs) {
+    return lhs->a > rhs->a && lhs->b > rhs->b;
+}
+
+int binary_search_rightmost(const Row* rows, int nrows, Row* key) {
+    int left = 0, right = nrows;
+    while (left < right) {
+        int middle = left + (right - left) / 2;
+        if (greater(&rows[middle], key)) {
             right = middle;
         } else {
             left = middle + 1;
@@ -211,7 +222,8 @@ void task2_opt(const Row* rows, int nrows) {
  * @param rows      The rows, for example rows[0] is the first row.
  */
 void task3(const Row* rows, int nrows) {
-    priority_queue<const Row*, vector<const Row*>, cmp> heap;
+    auto cmp = [](const Row* lhs, const Row* rhs) { return lhs->b > rhs->b };
+    priority_queue<const Row*, vector<const Row*>, decltype(cmp)> heap(cmp);
 
     for (int i = first_greater_than_key(rows, nrows, 5);
          i <= last_less_than_key(rows, nrows, 10); ++i) {
@@ -231,8 +243,24 @@ void task3(const Row* rows, int nrows) {
         }
     }
 
-    while(!heap.empty()) {
+    while (!heap.empty()) {
         printf("%d,%d\n", heap.top()->a, heap.top()->b);
         heap.pop();
     }
+}
+
+/*！
+ *
+ * K-way merge
+ *
+ */
+struct Node {
+    Row* curr;
+    Row* end;
+};
+
+void k_way_merge() {
+    auto cmp = [](const Node* lhs, const Node* rhs) {
+        return lhs->curr->b > rhs->curr->b;
+    };
 }
